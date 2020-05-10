@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 
 function Square (props){
@@ -10,19 +11,19 @@ function Square (props){
 
 function Board(){
     //state 
-    const [boardSquares, setBoardSquares] = useState(Array(9).fill(null));
+    const [boardSquare, setBoard] = useState(Array(9).fill(null));
     const [xIsNext, setXIsNext] = useState(true);
 
     const handleClick = index =>{
-        const squares = [...boardSquares]; 
+        const squares = [...boardSquare]; 
 
-        if( whoIsTheWinner(boardSquares) || squares[index]) return; // if this already has a value return
+        if( whoIsTheWinner(boardSquare) || squares[index]) return; // if this already has a value return
        
         //add X or O
         squares[index] = xIsNext ? "X" : "O";
         //calculate next turn
         //set the state of the board
-        setBoardSquares(squares);
+        setBoard(squares);
         //set the state of the turn
         setXIsNext(!xIsNext);
           
@@ -32,12 +33,12 @@ function Board(){
     //create a render square function
     //takes an index and return a square with correct value and function
     const renderSquare = (index) => {
-        return <Square value={boardSquares[index]} onClick={()=>handleClick(index)}/>
+        return <Square value={boardSquare[index]} onClick={()=>handleClick(index)}/>
     };
     //create the board
     //calculates winner
     let status ;
-    const winner = whoIsTheWinner(boardSquares);
+    const winner = whoIsTheWinner(boardSquare);
     
     status = winner ? 
     `Winner is: ${winner}` :
@@ -45,7 +46,7 @@ function Board(){
     
     
     function whoIsTheWinner(squares){
-            const winningLine = [
+            const winningCondition = [
                 [0, 1, 2],
                 [0, 3, 6],
                 [0, 4, 8],
@@ -55,9 +56,9 @@ function Board(){
                 [6, 7, 8],
                 [0, 4, 8]
                ];
-               console.log(winningLine)
-               for (let i=0; i < winningLine.length; i++){
-                   const [a,b,c]=winningLine[i];
+               console.log(winningCondition)
+               for (let i=0; i < winningCondition.length; i++){
+                   const [a,b,c]=winningCondition[i];
                    if (squares[a] && squares[a] === squares[b] && squares[b]===squares[c])
                    return squares[a]; 
                } 
